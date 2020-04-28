@@ -1,0 +1,33 @@
+version: '2.3'
+services:
+  mysql:
+    image: "mysql:5.6"
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    networks:
+      spring-data-example:
+        ipv4_address: 192.164.13.2
+    ports:
+      - 3306:3306
+    volumes:
+      - type: volume
+        source: spring-data-mysql-volume
+        target: /var/lib/mysql
+  adminer:
+    image: "adminer"
+    container_name: adminer
+    networks:
+      spring-data-example:
+        ipv4_address: 192.164.13.3
+    ports:
+      - 8086:8080
+networks:
+  spring-data-example:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.164.13.0/24
+
+volumes:
+  spring-data-mysql-volume:
